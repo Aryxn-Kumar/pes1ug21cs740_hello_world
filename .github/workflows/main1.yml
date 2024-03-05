@@ -1,15 +1,43 @@
-name: Build C++ Project (Optional Testing Removed)
+name: Build C++ Project
+
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Configure CMake
-        run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=Release
-      - name: Build
-        run: cmake --build ${{github.workspace}}/build --config Release
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Configure CMake
+        run: |
+          cmake -B ${{ github.workspace }}/build -DCMAKE_BUILD_TYPE=Release
+          # Add any additional CMake configuration options here
+
+      - name: Build Project
+        run: |
+          cmake --build ${{ github.workspace }}/build --config Release
+          # Add any additional build commands here
+
+      - name: Test Project
+        run: |
+          # Add commands to run tests here (optional)
+
+      - name: Deploy Project
+        run: |
+          # Add commands to deploy the project (optional)
+
+      - name: Cleanup
+        run: |
+          # Add cleanup commands here if needed (optional)
+
+      # Add error handling step to display a message if any step fails
+      - name: Error Handling
+        if: failure()
+        run: |
+          echo "Error: Workflow failed. See the logs for details."
